@@ -16,11 +16,37 @@
     	<property name="rootLoggerLevel" value="FINE" />
     	<property name="printedLoggerLevel" value="FINE"/>
     </bean>
+    
+    <!-- load the properties file  -->
+    <context:property-placeholder location="classpath:sport.properties" />
 
     <!-- Define your beans here -->
-    <bean id="myCoach"
-    	class="com.luv2code.springdemo.BaseballCoach">
+    
+    <!-- Define the dependency -->
+    <bean id="myFortuneService"
+    	class="com.luv2code.springdemo.HappyFortuneService">
     </bean>
+    
+    <bean id="myCoach"
+    	class="com.luv2code.springdemo.TrackCoach">
+    	
+    	<!-- setup the constructor injection -->
+    	<constructor-arg ref="myFortuneService" />	
+    </bean>
+    
+    <!-- Bean for setter injection -->
+    <bean id="myCricketCoach"
+    	class="com.luv2code.springdemo.CricketCoach">
+    	
+    	<!-- set up our setter injection -->
+    	<!-- fortuneService => name of the FortuneService variable  -->
+    	<property name="fortuneService" ref="myFortuneService" />
+    	
+    	<!-- inject literal values -->
+    	<property name="emailAddress" value="${foo.email}" />
+    	<property name="team" value="${foo.team}" />
+    </bean>
+    
     
 </beans>
 
